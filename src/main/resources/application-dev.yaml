@@ -1,0 +1,50 @@
+server:
+  port: 18081
+
+spring:
+  application:
+    name: template
+  jackson:
+    date-format: yyyy-MM-dd
+    time-zone: GMT+8
+  datasource:
+    druid:
+      driver-class-name: com.mysql.cj.jdbc.Driver
+      url: jdbc:mysql://localhost:3306/practice?useUnicode=true&characterEncoding=utf-8&allowMultiQueries=true&useSSL=false&serverTimezone=Asia/Shanghai
+      username: root
+      password:
+
+      initial-size: 10
+      max-active: 20
+      max-wait: 60000
+      min-idle: 1
+      time-between-eviction-runs-millis: 60000
+      min-evictable-idle-time-millis: 30000
+      test-while-idle: true
+      test-on-borrow: true
+      test-on-return: false
+      pool-prepared-statements: true
+      max-open-prepared-statements: 20
+      validation-query: SELECT 1
+      validation-query-timeout: 500
+      filters: stat
+
+      stat-view-servlet:
+        enabled: true
+        url-pattern: /druid/*
+        login-password: admin
+        login-username: admin
+
+  codec:
+    log-request-details: true
+
+
+mybatis-plus:
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+
+logging:
+  config: classpath:logback-spring.xml
+

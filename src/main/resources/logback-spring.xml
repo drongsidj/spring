@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!--
+       日志输出格式：
+       %d{pattern}日期
+       %m或者%msg为信息
+       %M为method
+       %L为行号
+       %c类的完整名称
+       %thread线程名称
+       %n换行
+       %-5level
+    -->
+
+    <!--日志等级，只能输出大于设置的等级的信息-->
+    <!--TRACE < DEBUG < INFO < WARN < ERROR < FATAL-->
+
+    <!-- 定义日志文件的存储地址 勿在 LogBack 的配置中使用相对路径 -->
+    <property name="LOG_HOME" value="G:\\logs\\template" />
+    <!-- 从 Spring Boot 配置文件中，读取 spring.application.name 应用名 -->
+    <springProperty name="applicationName" scope="context" source="spring.application.name" />
+
+    <!--定义日志格式-->
+    <property name="ENCODER_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%thread] %-5level %logger{50} - %msg%n"/>
+
+    <!-- 引入 Spring Boot 默认的 logback XML 配置文件  -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+
+    <!-- 控制台日志输出的 appender -->
+    <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+        <!--控制输出流对象，默认System.out 改为 System.err-->
+        <target>System.err</target>
+        <!-- 日志的格式化 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+            <charset>${CONSOLE_LOG_CHARSET}</charset>
+        </encoder>
+    </appender>
+
+    <!-- 日志拆分和归档压缩的 appender 对象-->
+    <appender name="ROLLFILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <append>true</append>
+        <!--<file>${LOG_HOME}/${applicationName}.log</file>-->
+        <!-- 日志的格式化 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+            <charset>${FILE_LOG_CHARSET}</charset>
+        </encoder>
+        <!-- 指定拆分规则 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedRollingPolicy">
+            <!-- 按照时间和压缩格式声明拆分的文件名 -->
+            <fileNamePattern>${LOG_HOME}/${applicationName}.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <!-- 按照文件大小拆分 -->
+            <maxFileSize>10MB</maxFileSize>
+            <!-- 日志保留时间 -->
+            <maxHistory>90</maxHistory>
+        </rollingPolicy>
+
+        <!-- 日志级别过滤器 -->
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <!-- 日志过滤规则 只要info级别的日志，不是则不添加-->
+            <level>INFO</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+    </appender>
+
+    <!-- 异步日志 -->
+    <appender name="ASYNC" class="ch.qos.logback.classic.AsyncAppender">
+        <!-- 指定某个具体的 appender -->
+        <appender-ref ref="ROLLFILE" />
+    </appender>
+
+    <!-- 测试环境，独有的配置 -->
+    <springProfile name="dev">
+        <!-- 设置 Appender -->
+        <root level="INFO">
+            <appender-ref ref="CONSOLE" />
+            <appender-ref ref="ASYNC" />
+        </root>
+        <logger name="top.igio.interchange" level="DEBUG"/>
+    </springProfile>
+
+    <!-- 生产环境，独有的配置 -->
+    <springProfile name="prod">
+        <!-- 设置 Appender -->
+        <root level="INFO">
+            <appender-ref ref="ASYNC" />
+        </root>
+    </springProfile>
+
+    <!-- root logger 配置 -->
+    <root level="INFO">
+        <appender-ref ref="CONSOLE" />
+        <appender-ref ref="ASYNC" />
+    </root>
+</configuration>
