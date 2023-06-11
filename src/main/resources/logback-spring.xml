@@ -29,7 +29,7 @@
     <!-- 控制台日志输出的 appender -->
     <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
         <!--控制输出流对象，默认System.out 改为 System.err-->
-        <target>System.err</target>
+        <!--<target>System.err</target>-->
         <!-- 日志的格式化 -->
         <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
             <pattern>${CONSOLE_LOG_PATTERN}</pattern>
@@ -72,22 +72,22 @@
     </appender>
 
     <!-- 测试环境，独有的配置 -->
-    <springProfile name="dev">
-        <!-- 设置 Appender -->
-        <root level="INFO">
-            <appender-ref ref="CONSOLE" />
-            <appender-ref ref="ASYNC" />
-        </root>
-        <logger name="top.igio.interchange" level="DEBUG"/>
-    </springProfile>
+    <!--<springProfile name="dev">-->
+    <!--    &lt;!&ndash; 设置 Appender &ndash;&gt;-->
+    <!--    <root level="INFO">-->
+    <!--        <appender-ref ref="CONSOLE" />-->
+    <!--        <appender-ref ref="ASYNC" />-->
+    <!--    </root>-->
+    <!--    <logger name="top.igio.template" level="DEBUG"/>-->
+    <!--</springProfile>-->
 
     <!-- 生产环境，独有的配置 -->
-    <springProfile name="prod">
-        <!-- 设置 Appender -->
-        <root level="INFO">
-            <appender-ref ref="ASYNC" />
-        </root>
-    </springProfile>
+    <!--<springProfile name="prod">-->
+    <!--    &lt;!&ndash; 设置 Appender &ndash;&gt;-->
+    <!--    <root level="INFO">-->
+    <!--        <appender-ref ref="ASYNC" />-->
+    <!--    </root>-->
+    <!--</springProfile>-->
 
     <!-- root logger 配置 -->
     <root level="INFO">
