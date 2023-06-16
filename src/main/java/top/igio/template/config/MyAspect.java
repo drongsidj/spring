@@ -26,10 +26,9 @@ public class MyAspect {
 
         @Before("pointCut()")
         public void before(JoinPoint joinPoint) {
-            logger.info("-----开始执行前置通知-----");
+            logger.info("-----开始执行" + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName() + "-----");
             logger.info("请求方法：{}", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
             logger.info("请求参数：{}", Arrays.toString(joinPoint.getArgs()));
-            logger.info("-----前置通知结束-----");
         }
 
         @AfterReturning(returning = "ret", pointcut = "pointCut()")
