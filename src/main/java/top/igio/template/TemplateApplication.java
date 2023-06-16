@@ -12,6 +12,7 @@ public class TemplateApplication {
 
 	public static void main(String[] args) {
 		logger.info("TemplateApplication start...");
+
 		SpringApplication.run(TemplateApplication.class, args);
 	}
 
