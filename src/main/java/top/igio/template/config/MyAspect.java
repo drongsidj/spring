@@ -26,30 +26,30 @@ public class MyAspect {
 
         @Before("pointCut()")
         public void before(JoinPoint joinPoint) {
-            logger.info("-----开始执行" + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName() + "-----");
+            //logger.info("-----开始执行" + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName() + "-----");
             logger.info("请求方法：{}", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
             logger.info("请求参数：{}", Arrays.toString(joinPoint.getArgs()));
         }
 
         @AfterReturning(returning = "ret", pointcut = "pointCut()")
         public void afterReturning(Object ret) {
-            logger.info("-----开始执行后置通知-----");
+            //logger.info("-----开始执行后置通知-----");
             logger.info("返回参数：{}", ret);
-            logger.info("-----后置通知结束-----");
+            //logger.info("-----后置通知结束-----");
         }
 
         @AfterThrowing(pointcut = "pointCut()", throwing = "e")
         public void afterThrowing(JoinPoint joinPoint, Exception e) {
-            logger.info("-----开始执行异常通知-----");
+            //logger.info("-----开始执行异常通知-----");
             logger.info("请求方法：{}", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
             logger.info("异常信息：{}", e.getMessage());
-            logger.info("-----异常通知结束-----");
+            //logger.info("-----异常通知结束-----");
         }
 
         @After("pointCut()")
         public void after(JoinPoint joinPoint) {
-            logger.info("-----开始执行最终通知-----");
+            //logger.info("-----开始执行最终通知-----");
             logger.info("请求方法：{}", joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
-            logger.info("-----最终通知结束-----");
+            //logger.info("-----最终通知结束-----");
         }
 }
